@@ -1,0 +1,10 @@
+[client]
+toolbarMode = "minimal"
+showSidebarNavigarion = true
+
+[server]
+runOnSave = true
+
+[theme]
+borderColor = "#999999"
+showWidgetBorder = true
