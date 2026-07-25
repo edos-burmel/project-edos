@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Edos",
+    "phone": "+380558739485",
+    "email": "edosburmel@gmail.com",
+    "city": "Полтава"
+  },
+  {
+    "id": 2,
+    "name": "Андрій",
+    "phone": "+380686979969",
+    "email": "andriy@gmail.com",
+    "city": "Одеса"
+  }
+]
