@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Моя Сторінка</title>
+
+    <style>
+        body {
+            background-color: #abdab6;
+            color: #233142;
+        }
+
+        h2 {
+            color: #463696;
+        }
+
+        p {
+            font-size: 14px;
+        }
+
+        .my-par {
+            font-size: 18px;
+        }
+
+        .bold-class {
+            font-weight: bold;
+            font-family: Arial;
+        }
+
+        #my-list-id {
+            font-style: italic;
+        }
+
+        #container-1 {
+            background-color: #a68bad;
+            width: 200px;
+            height: 80px;
+            margin: 20px 15px 20px 10px;
+            padding: 5px;
+            display: flex;
+        }
+
+        #container-2 {
+            background-color: #97afcc;
+            width: 180px;
+            height: 60px;
+            margin: 0px;
+            display: flex;
+        }
+
+    </style>
+    <!-- CSS стилі з файлу -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <p class="my-par bold-class">This is the first paragraph</p>
+  <p>This is the second paragraph</p>
+
+
+  <ul style="color: red">
+    <li>Автомобіль</li>
+    <li style="color: green">Літак</li>
+    <li>Корабель</li>
+  </ul>
+
+  <ol id="my-list-id">
+      <li><b>Автомобіль</b></li>
+      <li><i>Літак</i></li>
+      <li class="bold-class">Корабель</li>
+  </ol>
+
+  <div id="container-1">
+      <div id="container-2">
+          <h2>Заголовок <span>2</span></h2>
+      </div>
+  </div>
+
+  <form method="post" action="">
+      <input type="text" value="" />
+      <select>
+          <option>Option 1</option>
+          <option>Option 2</option>
+      </select>
+      <input type="submit" />
+  </form>
+
+
+</body>
+</html>
