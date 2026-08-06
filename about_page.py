@@ -6,6 +6,7 @@ GITHUB_URL = "https://github.com/edos-burmel"
 
 def show_about_page():
     st.title("Edos")
+    st.info("Оновлено: тепер у застосунку є сторінка Контакти з пошуком, статистикою та навігацією.")
 
     st.subheader("Мої проєкти")
 

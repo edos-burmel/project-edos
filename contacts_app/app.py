@@ -20,14 +20,51 @@ def display_contacts(contacts):
             # contact['sex']
 
 
+def sort_contacts(contacts):
+    return sorted(
+        contacts,
+        key=lambda contact: (
+            str(contact.get('name', '')).strip().lower(),
+            int(contact.get('id', 0)),
+        )
+    )
+
+
+def get_contact_stats(contacts):
+    cities = {}
+
+    for contact in contacts:
+        city = contact.get("city", "Невідомо")
+        cities[city] = cities.get(city, 0) + 1
+
+    return {
+        'total': len(contacts),
+        'cities': cities,
+    }
+
+
 def display_contacts_tabular(contacts):
+    if not contacts:
+        st.info("Нічого не знайдено за поточними параметрами пошуку.")
+        return
+
     df = pd.DataFrame(contacts)
-    st.dataframe(df, hide_index=True)
+    display_columns = ['id', 'name', 'phone', 'email', 'city']
+    df = df[[column for column in display_columns if column in df.columns]]
+    f = df.rename(columns={
+        "id": "ID",
+        "name": "Ім'я",
+        "phone": "Телефон",
+        "email": "Email",
+        "city": "Місто",
+    })
+    st.dataframe(df, hide_index=True, use_container_width=True)
 
 
 def get_contact_form_data(contacts):
     with st.form("contact_form"):
         st.subheader("Новий контакт")
+        st.caption("Заповніть форму, щоб додати контакт у список.")
 
         name = st.text_input(f"Ім'я:", placeholder="Введіть ваше ім'я").strip()
         phone = st.text_input(f"Телефон:", "+380").strip()
@@ -118,6 +155,7 @@ st.set_page_config(
 
 def show_contacts_page():
     st.title('Список контактів')
+    st.caption('Зручний спосіб керувати контактами: шукати, фільтрувати і зберігати їх у одному місці.')
 
     contacts = load_contacts()
 
@@ -136,16 +174,23 @@ def show_contacts_page():
     with list_tab:
         st.subheader("Список контактів")
         if contacts:
-            search_text = st.text_input("Пошук")
+            stats = get_contact_stats(contacts)
+            summary_cols = st.columns(3)
+            summary_cols[0].metric("Всього контактів", stats['total'])
+            summary_cols[1].metric("Унікальних міст", len(stats['cities']))
+            summary_cols[2].metric(
+                "Найпопулярніше місто",
+                max(stats['cities'], key=stats['cities'].get, default='—'),
+            )
+
+            search_text = st.text_input("Пошук", placeholder="Пошук за ім'ям, email або телефоном")
             selected_city = st.selectbox("Місто:", get_city_options(contacts))
-            filtered_contacts = filter_contacts(contacts, search_text, selected_city)
+            filtered_contacts = sort_contacts(filter_contacts(contacts, search_text, selected_city))
 
-            st.write(f"Усього контактів: {len(contacts)}")
             st.write(f"Знайдено контактів: {len(filtered_contacts)}")
-
             display_contacts_tabular(filtered_contacts)
         else:
-            st.info("Поки що контактів немає.")
+            st.info("Поки що контактів немає. Додайте перший контакт у вкладці «Додати Контакт».")
 
     with del_tab:
         st.subheader("Видалення контакту")
@@ -153,7 +198,7 @@ def show_contacts_page():
         if contacts:
             contact = st.selectbox(
                 "Контакти",
-                contacts,
+                sort_contacts(contacts),
                 format_func=lambda contact: str(contact["id"]) + " - " + contact["name"]
             )
 
@@ -161,7 +206,7 @@ def show_contacts_page():
                 contacts = delete_contact_by_id(contacts, contact["id"])
                 save_contacts(contacts)
                 st.success("Контакт видалено")
-                time.sleep(3)
+                time.sleep(2)
                 st.rerun()
         else:
             st.info("Поки що немає контактів для видалення.")
