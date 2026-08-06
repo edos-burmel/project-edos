@@ -152,7 +152,7 @@ st.set_page_config(
     page_title="Мої Контакти", page_icon="🖼️"
 )
 
-
+#
 def show_contacts_page():
     st.title('Список контактів')
     st.caption('Зручний спосіб керувати контактами: шукати, фільтрувати і зберігати їх у одному місці.')

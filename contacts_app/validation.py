@@ -26,7 +26,7 @@ def validate_email(email):
 
     return True, ""
 
-
+#
 def validate_phone(phone):
     normalized_phone = (phone or "").strip()
 
